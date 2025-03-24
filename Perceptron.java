@@ -12,7 +12,6 @@ public class Perceptron {
         this.learningRate = learningRate;
         this.useBias = useBias;
         
-        // Inicializar pesos y sesgo con valores aleatorios entre -1 y 1
         Random random = new Random();
         for (int i = 0; i < inputSize; i++) {
             this.weights[i] = random.nextDouble() * 2 - 1;
@@ -21,15 +20,13 @@ public class Perceptron {
         if (useBias) {
             this.bias = random.nextDouble() * 2 - 1;
         } else {
-            this.bias = 0; // No se usa, pero inicializamos a 0
+            this.bias = 0;
         }
     }
-    
+
     
     /**
      * Función de activación sigmoid: 1/(1 + e^(-x))
-     * @param x El valor de entrada
-     * @return Un valor entre 0 y 1
      */
     private double sigmoid(double x) {
         return 1.0 / (1.0 + Math.exp(-x));
@@ -41,21 +38,16 @@ public class Perceptron {
      * @return La salida del perceptrón (un valor entre 0 y 1)
      */
     public double calculateOutput(double[] inputs) {
-        double sum = useBias ? bias : 0; // Usamos el sesgo solo si useBias es true
+        double sum = useBias ? bias : 0;
         
-        // Calculamos la suma ponderada: w1*x1 + w2*x2 + ... (+ bias si corresponde)
         for (int i = 0; i < weights.length; i++) {
             sum += inputs[i] * weights[i];
         }
-        
-        // Aplicamos la función sigmoid
         return sigmoid(sum);
     }
     
     /**
-     * Realiza la predicción (clasificación binaria)
-     * @param inputs Vector de entradas
-     * @return 1 si la salida es >= 0.5, 0 en caso contrario
+    1 si la salida es >= 0.5, 0 en caso contrario
      */
     public int predict(double[] inputs) {
         return calculateOutput(inputs) >= 0.5 ? 1 : 0;
@@ -74,7 +66,7 @@ public class Perceptron {
         boolean converged = false;
         
         System.out.println("Iniciando entrenamiento del perceptron " +
-                            (useBias ? "con sesgo..." : "sin sesgo..."));
+                            (useBias ? "con sesgo: " : "sin sesgo: "));
         System.out.println("Pesos iniciales: " + weightsToString());
         if (useBias) {
             System.out.println("Sesgo inicial: " + String.format("%.4f", bias));
@@ -84,42 +76,41 @@ public class Perceptron {
         while (!converged && epoch < maxEpochs) {
             double totalError = 0;
             
-            // Procesamos cada ejemplo de entrenamiento
             for (int i = 0; i < trainingData.length; i++) {
                 double[] inputs = trainingData[i];
                 double target = targets[i];
                 
-                // Calculamos la salida actual
+                // calcular salida actual
                 double output = calculateOutput(inputs);
                 
-                // Calculamos el error
+                // calcular error
                 double error = target - output;
                 totalError += Math.pow(error, 2); // Error cuadrático
                 
                 // Factor derivada de la función sigmoid: output * (1 - output)
                 double sigmoidDerivative = output * (1 - output);
                 
-                // Actualizamos los pesos
+                // se actualizan los pesos
                 for (int j = 0; j < weights.length; j++) {
                     weights[j] += learningRate * error * sigmoidDerivative * inputs[j];
                 }
                 
-                // Actualizamos el sesgo si corresponde
+                // se actualiza el sesgo si se necesita
                 if (useBias) {
                     bias += learningRate * error * sigmoidDerivative;
                 }
             }
             
-            // Calculamos el error promedio
+            // se calcula el error promedio
             double mse = totalError / trainingData.length;
             epoch++;
             
-            // Verificamos si hemos convergido
+            // Converge?
             if (mse < errorThreshold) {
                 converged = true;
             }
             
-            // Mostramos progreso cada 100 épocas
+            // proceso de 100 epocas
             if (epoch % 100 == 0) {
                 System.out.println("Epoca " + epoch + ", Error: " + mse);
             }
@@ -131,13 +122,11 @@ public class Perceptron {
             System.out.println("Sesgo final: " + String.format("%.4f", bias));
         }
         
-        // Mostramos resultados detallados
         printResults(trainingData, targets);
     }
     
     /**
      * Convierte los pesos a una cadena para mostrarlos
-     * @return String con los pesos formateados
      */
     private String weightsToString() {
         StringBuilder sb = new StringBuilder("[");
@@ -151,11 +140,7 @@ public class Perceptron {
         return sb.toString();
     }
     
-    /**
-     * Muestra los resultados detallados del perceptrón
-     * @param data Datos de entrada
-     * @param expectedOutputs Salidas esperadas
-     */
+
     public void printResults(double[][] data, double[] expectedOutputs) {
         System.out.println("\n--- Resultados detallados ---");
         
@@ -163,27 +148,26 @@ public class Perceptron {
             double[] inputs = data[i];
             double expected = expectedOutputs[i];
             
-            // Calculamos la suma ponderada
+            // suma ponderada
             double weightedSum = useBias ? bias : 0;
             for (int j = 0; j < weights.length; j++) {
                 weightedSum += inputs[j] * weights[j];
             }
             
-            // Calculamos la salida usando la función sigmoid
+            // salida usando la función sigmoid
             double output = sigmoid(weightedSum);
             int prediction = output >= 0.5 ? 1 : 0;
             
-            // Mostramos los cálculos paso a paso
+            
             System.out.print("Entradas: [");
             for (int j = 0; j < inputs.length; j++) {
-                System.out.print((int)inputs[j]); // Convertimos a entero para simplificar
+                System.out.print((int)inputs[j]); // Se convierte a entero
                 if (j < inputs.length - 1) System.out.print(", ");
             }
             System.out.println("]");
             
             if (useBias) {
-                System.out.println("Suma Ponderada = " + String.format("%.4f", weightedSum) +
-                                " (incluye sesgo: " + String.format("%.4f", bias) + ")");
+                System.out.println("Suma Ponderada = " + String.format("%.4f", weightedSum));
             } else {
                 System.out.println("Suma Ponderada = " + String.format("%.4f", weightedSum));
             }

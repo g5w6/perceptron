@@ -3,7 +3,7 @@
  */
 public class Main {
     public static void main(String[] args) {
-        // Datos para entrenar la compuerta lógica AND
+        // Datos de la compuerta AND
         double[][] andTrainingData = {
             {0, 0},
             {0, 1},
@@ -14,7 +14,7 @@ public class Main {
         // Salidas esperadas para la compuerta AND
         double[] andTargets = {0, 0, 0, 1};
         
-        // Datos para entrenar la compuerta lógica OR
+        // Datos de la compuerta OR
         double[][] orTrainingData = {
             {0, 0},
             {0, 1},
@@ -26,7 +26,7 @@ public class Main {
         double[] orTargets = {0, 1, 1, 1};
         
         // Crear y entrenar un perceptrón SIN sesgo para la compuerta AND
-        System.out.println("=== PERCEPTRON SIN SESGO PARA COMPUERTA AND ===");
+        System.out.println("\n=== PERCEPTRON SIN SESGO PARA COMPUERTA AND ===");
         // Parámetros: 2 entradas, tasa de aprendizaje 0.1, sin sesgo (false)
         Perceptron perceptronAnd = new Perceptron(2, 0.5, false);
         perceptronAnd.train(andTrainingData, andTargets);
