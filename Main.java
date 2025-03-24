@@ -28,13 +28,13 @@ public class Main {
         // Crear y entrenar un perceptrón SIN sesgo para la compuerta AND
         System.out.println("=== PERCEPTRON SIN SESGO PARA COMPUERTA AND ===");
         // Parámetros: 2 entradas, tasa de aprendizaje 0.1, sin sesgo (false)
-        Perceptron perceptronAnd = new Perceptron(2, 0.1, false);
+        Perceptron perceptronAnd = new Perceptron(2, 0.5, false);
         perceptronAnd.train(andTrainingData, andTargets);
         
         // Crear y entrenar un perceptrón CON sesgo para la compuerta OR
         System.out.println("\n\n=== PERCEPTRON CON SESGO PARA COMPUERTA OR ===");
         // Parámetros: 2 entradas, tasa de aprendizaje 0.1, con sesgo (true)
-        Perceptron perceptronOr = new Perceptron(2, 0.1, true);
+        Perceptron perceptronOr = new Perceptron(2, 0.5, true);
         perceptronOr.train(orTrainingData, orTargets);
     }
 }

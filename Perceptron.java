@@ -1,27 +1,12 @@
 import java.util.Random;
 
-/**
- * Clase que implementa un perceptrón simple, con o sin sesgo
- */
 public class Perceptron {
-    // Los pesos del perceptrón
     private final double[] weights;
-    
-    // El sesgo (bias) para el perceptrón con sesgo
     private double bias;
-    
-    // La tasa de aprendizaje
     private final double learningRate;
-    
-    // Indica si este perceptrón usa sesgo o no
     private final boolean useBias;
     
-    /**
-     * Constructor para crear un perceptrón
-     * @param inputSize Número de entradas
-     * @param learningRate Tasa de aprendizaje
-     * @param useBias Si es true, crea un perceptrón con sesgo; si es false, sin sesgo
-     */
+
     public Perceptron(int inputSize, double learningRate, boolean useBias) {
         this.weights = new double[inputSize];
         this.learningRate = learningRate;
@@ -39,6 +24,7 @@ public class Perceptron {
             this.bias = 0; // No se usa, pero inicializamos a 0
         }
     }
+    
     
     /**
      * Función de activación sigmoid: 1/(1 + e^(-x))
@@ -81,14 +67,14 @@ public class Perceptron {
      * @param targets Vector de salidas esperadas
      */
     public void train(double[][] trainingData, double[] targets) {
-        int maxEpochs = 10000;
+        int maxEpochs = 100;
         double errorThreshold = 0.01;
         
         int epoch = 0;
         boolean converged = false;
         
-        System.out.println("Iniciando entrenamiento del perceptron " + 
-                          (useBias ? "con sesgo..." : "sin sesgo..."));
+        System.out.println("Iniciando entrenamiento del perceptron " +
+                            (useBias ? "con sesgo..." : "sin sesgo..."));
         System.out.println("Pesos iniciales: " + weightsToString());
         if (useBias) {
             System.out.println("Sesgo inicial: " + String.format("%.4f", bias));
@@ -196,13 +182,13 @@ public class Perceptron {
             System.out.println("]");
             
             if (useBias) {
-                System.out.println("Suma Ponderada = " + String.format("%.4f", weightedSum) + 
-                                  " (incluye sesgo: " + String.format("%.4f", bias) + ")");
+                System.out.println("Suma Ponderada = " + String.format("%.4f", weightedSum) +
+                                " (incluye sesgo: " + String.format("%.4f", bias) + ")");
             } else {
                 System.out.println("Suma Ponderada = " + String.format("%.4f", weightedSum));
             }
             
-            System.out.println("Funcion de Activacion (Sigmoid) = " + String.format("%.4f", output));
+            System.out.println("Sigmoid = " + String.format("%.4f", output));
             System.out.println("Prediccion: " + prediction + ", Esperado: " + (int)expected);
             System.out.println("------------------------");
         }
