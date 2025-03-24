@@ -33,9 +33,7 @@ public class Perceptron {
     }
     
     /**
-     * Calcula la salida del perceptrón para un conjunto de entradas
-     * @param inputs Vector de entradas
-     * @return La salida del perceptrón (un valor entre 0 y 1)
+    La salida del perceptrón funcion sigmoide
      */
     public double calculateOutput(double[] inputs) {
         double sum = useBias ? bias : 0;
@@ -47,16 +45,14 @@ public class Perceptron {
     }
     
     /**
-    1 si la salida es >= 0.5, 0 en caso contrario
+    1 si la salida es >= 0.5 o 0 escalonado?
      */
     public int predict(double[] inputs) {
         return calculateOutput(inputs) >= 0.5 ? 1 : 0;
     }
     
     /**
-     * Entrena el perceptrón con un conjunto de datos
-     * @param trainingData Matriz de datos de entrenamiento
-     * @param targets Vector de salidas esperadas
+    etapa de entrenamiento
      */
     public void train(double[][] trainingData, double[] targets) {
         int maxEpochs = 100;
@@ -110,7 +106,7 @@ public class Perceptron {
                 converged = true;
             }
             
-            // proceso de 100 epocas
+            // como se visualiza el el progreso de las epocas
             if (epoch % 100 == 0) {
                 System.out.println("Epoca " + epoch + ", Error: " + mse);
             }
